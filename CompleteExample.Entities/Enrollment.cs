@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace CompleteExample.Entities
 {
@@ -14,7 +11,9 @@ namespace CompleteExample.Entities
         public int StudentId { get; set; }
         [ForeignKey("CourseId")]
         public int CourseId { get; set; }
-        public Decimal Grade { get; set; }
+        public decimal Grade { get; set; }
+        public Student Student { get; set; }
+        public Course Course { get; set; }
 
     }
 }

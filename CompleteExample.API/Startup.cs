@@ -1,4 +1,6 @@
 using CompleteExample.Entities;
+using CompleteExample.Entities.Abstract;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,8 +32,19 @@ namespace CompleteExample.API
         {
             services.AddControllers();
 
-            services.AddDbContext<CompleteExampleDBContext>(options =>
+            services.AddDbContext<SchoolDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SchoolContext")));
+
+            services.AddMediatR(typeof(Logic.AssemblyReference));
+
+            services.AddScoped<IReadOnlySchoolDbContext, SchoolDbContext>();
+
+            services.AddScoped<ISchoolDbContext, SchoolDbContext>();
+
+            services.AddMvcCore(options => options.Filters.Add<ApiExceptionFilter>());
+
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +58,9 @@ namespace CompleteExample.API
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseEndpoints(endpoints =>
             {

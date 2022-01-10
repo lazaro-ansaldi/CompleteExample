@@ -1,16 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CompleteExample.Entities.Abstract;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace CompleteExample.Entities
 {
-    public class CompleteExampleDBContext : DbContext
+    public class SchoolDbContext : DbContext, IReadOnlySchoolDbContext, ISchoolDbContext
     {
 
-        public CompleteExampleDBContext(DbContextOptions<CompleteExampleDBContext> options) : base(options) { }
+        public SchoolDbContext(DbContextOptions<SchoolDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,5 +32,9 @@ namespace CompleteExample.Entities
         public DbSet<Enrollment> Enrollment { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
 
+        IQueryable<Course> IReadOnlySchoolDbContext.Courses => Courses.AsNoTracking();
+        IQueryable<Student> IReadOnlySchoolDbContext.Students => Students.AsNoTracking();
+        IQueryable<Enrollment> IReadOnlySchoolDbContext.Enrollment => Enrollment.AsNoTracking();
+        IQueryable<Instructor> IReadOnlySchoolDbContext.Instructors => Instructors.AsNoTracking();
     }
 }

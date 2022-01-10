@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace CompleteExample.Entities
 {
@@ -15,6 +12,7 @@ namespace CompleteExample.Entities
         public int Credits { get; set; }
         [ForeignKey("InstructorId")]
         public int InstructorId { get; set; }
+        public Instructor Instructor { get; set; }
 
     }
 }
